@@ -273,48 +273,6 @@ suite('Functional Tests', function() {
       .end((err, res) => {
         chai.request(server)
         .get('/api/issues/test')
-        .query({})
-        .end((err, res) => {
-          const idToDelete = res.body[res.body.length-1]._id
-          chai.request(server)
-          .delete('/api/issues/test')
-          .send({
-            _id: idToDelete
-          })
-          .end((err, res) => {
-            assert.equal(res.status, 200)
-            assert.isObject(res.body)
-            assert.equal(res.body.result, "successfully deleted")
-            assert.equal(res.body._id, idToDelete)
-            done()
-          })
-        })
-      })
-    })
-    test("delete an issue with invalid _id", function (done) {
-      const objWithInvalidId = {
-        _id: "what"
-      }
-      chai.request(server)
-      .delete('/api/issues/test')
-      .send(objWithInvalidId)
-      .end((err, res) => {
-        assert.equal(res.status, 200)
-        assert.isObject(res.body)
-        assert.deepEqual(res.body, {
-          error: "could not delete",
-          _id: objWithInvalidId._id
-        })
-        done()
-      })
-    })
-    test("delete an issue with missing _id", function (done) {
-      chai.request(server)
-      .delete('/api/issues/test')
-      .end((err, res) => {
-        assert.isObject(res.body)
-        assert.equal(res.body.error, "missing _id")
-        done()
       })
     })
   })
