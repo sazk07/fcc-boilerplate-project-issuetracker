@@ -33,7 +33,10 @@ const IssueSchema = new mongoose.Schema({
     default: true
   }
 }, {
-  timestamps: true
+  timestamps: {
+    createdAt: 'created_on',
+    updatedAt: 'updated_on'
+  }
 })
 
 IssueSchema.set('toJSON', {

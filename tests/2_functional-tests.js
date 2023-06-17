@@ -2,9 +2,6 @@ const chaiHttp = require('chai-http');
 const chai = require('chai');
 const assert = chai.assert;
 const server = require('../server');
-const mongoose = require('mongoose');
-const { IssueModel } = require('../models/issue');
-const assertionAnalyser = require('../assertion-analyser');
 
 chai.use(chaiHttp);
 
@@ -18,7 +15,6 @@ suite('Functional Tests', function() {
       chai.request(server)
       .post('/api/issues/test')
       .send({
-        project: "test",
         issue_title: "title 1",
         issue_text: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
         created_by: "sazk",
@@ -28,13 +24,15 @@ suite('Functional Tests', function() {
       .end((err, res) => {
         assert.equal(res.status, 200)
         assert.isObject(res.body)
-        assert.equal(res.body.project, "test")
         assert.equal(res.body.issue_title, "title 1")
         assert.equal(res.body.issue_text, "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.")
         assert.equal(res.body.created_by, "sazk")
         assert.equal(res.body.assigned_to, "mod")
         assert.equal(res.body.status_text, "in QA")
         assert.isTrue(res.body.open)
+        assert.property(res.body, "_id")
+        assert.isNumber(Date.parse(res.body.created_on))
+        assert.isNumber(Date.parse(res.body.updated_on))
         done()
       })
     })
@@ -89,8 +87,8 @@ suite('Functional Tests', function() {
         assert.property(res.body[0], "status_text")
         assert.property(res.body[0], "open")
         assert.property(res.body[0], "_id")
-        assert.property(res.body[0], "createdAt")
-        assert.property(res.body[0], "updatedAt")
+        assert.property(res.body[0], "created_on")
+        assert.property(res.body[0], "updated_on")
         done()
       })
     })
@@ -236,7 +234,7 @@ suite('Functional Tests', function() {
             assert.equal(res.status, 200)
             assert.isObject(res.body)
             assert.deepEqual(res.body, {
-              error: "no update field sent",
+              error: "no update field(s) sent",
               _id: lastTestId
             })
             done()

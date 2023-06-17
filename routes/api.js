@@ -75,9 +75,9 @@ module.exports = function (app) {
       }
 
       // if no fields sent for update
-      if (!issue_title && !issue_text && !created_by && !assigned_to && !status_text) {
+      if (!issue_title && !issue_text && !created_by && !assigned_to && !status_text && !open) {
         return res.json({
-          error: "no update field sent",
+          error: "no update field(s) sent",
           _id
         })
       }
