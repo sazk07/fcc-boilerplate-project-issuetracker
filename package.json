@@ -21,7 +21,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/sazk07/fcc-boilerplate-project-issuetracker"
+		"url": "https://github.com/sazk07/issuetracker-project"
 	},
 	"keywords": [
 		"node",
