@@ -64,6 +64,5 @@ async function main() {
         }, 3500);
       }
     });
-
 }
 module.exports = app; //for testing
